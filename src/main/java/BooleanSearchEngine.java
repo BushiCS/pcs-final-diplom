@@ -21,7 +21,8 @@ public class BooleanSearchEngine implements SearchEngine {
                         Map<String, Integer> freqs = new HashMap<>();
                         for (var word : words) {
                             if (!word.isEmpty()) {
-                                freqs.put(word.toLowerCase(), freqs.getOrDefault(word, 0) + 1);
+                                word = word.toLowerCase();
+                                freqs.put(word, freqs.getOrDefault(word, 0) + 1);
                             }
                         }
                         for (var entry : freqs.entrySet()) {

@@ -10,7 +10,7 @@ public class Main {
 
     @SuppressWarnings("InfiniteLoopStatement")
     public static void main(String[] args) {
-        BooleanSearchEngine engine = new BooleanSearchEngine(new File("pdfs"));
+        BooleanSearchEngine engine = new BooleanSearchEngine(new File("pdfs"), new File("stop-ru.txt"));
         Gson gson = new Gson();
         System.out.println("Starting server at " + PORT + "...");
         try (ServerSocket serverSocket = new ServerSocket(PORT)) {
@@ -21,8 +21,8 @@ public class Main {
                         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                         PrintWriter out = new PrintWriter(socket.getOutputStream())
                 ) {
-                    String word = in.readLine();
-                    out.println(gson.toJson(engine.search(word)));
+                    String[] words = in.readLine().split("\\P{IsAlphabetic}+");
+                    out.println(gson.toJson(engine.multiplySearch(words)));
                 }
             }
         } catch (IOException e) {
